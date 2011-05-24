@@ -1,0 +1,6 @@
+Possible spam comment submitted:
+
+Site Url: <%=siteUrl%>
+User: <%=userName%>
+Comment: <%=comment%>
+Protection: <%=protection%>

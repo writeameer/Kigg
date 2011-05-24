@@ -1,0 +1,5 @@
+The following comment has been confirmed as spam by <%=confirmedByUserName%>:
+
+Site Url: <%=siteUrl%>
+User: <%=postedByUserName%>
+Comment: <%=comment%>

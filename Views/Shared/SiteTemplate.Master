@@ -1,0 +1,179 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseViewData>" %>
+<script runat="server">
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+
+        jQueryScriptManager scriptManager = jQueryScriptManager.Current;
+
+        GenerateScript(scriptManager);
+        GenerateHeaders();
+        ShowQueuedMessage(scriptManager);
+    }
+
+    private void ShowQueuedMessage(jQueryScriptManager scriptManager)
+    {
+        HttpCookie notification = Request.Cookies["notification"];
+
+        if (notification != null)
+        {
+            string message = notification.Values["msg"];
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                bool isError;
+                bool.TryParse(notification.Values["err"], out isError);
+
+                message = message.Replace("'", string.Empty).Replace("\"", string.Empty);
+
+                scriptManager.RegisterOnReady("$U.messageBox('Message', '{0}', {1});".FormatWith(message, isError.ToString().ToLowerInvariant()));
+            }
+
+            notification = Response.Cookies["notification"];
+
+            if (notification != null)
+            {
+                notification.Expire();
+            }
+        }
+    }
+
+    private void GenerateScript(jQueryScriptManager scriptManager)
+    {
+        scriptManager.RegisterSource(Url.Asset("js2"));
+
+        scriptManager.RegisterOnReady("Membership.set_isLoggedIn({0});".FormatWith(Model.IsCurrentUserAuthenticated.ToString().ToLowerInvariant()));
+        scriptManager.RegisterOnReady("Membership.set_logOutUrl('{0}');".FormatWith(Url.RouteUrl("Logout")));
+
+        scriptManager.RegisterOnReady("Story.set_clickUrl('{0}');".FormatWith(Url.RouteUrl("Click")));
+        scriptManager.RegisterOnReady("Story.set_promoteUrl('{0}');".FormatWith(Url.RouteUrl("Promote")));
+        scriptManager.RegisterOnReady("Story.set_demoteUrl('{0}');".FormatWith(Url.RouteUrl("Demote")));
+        scriptManager.RegisterOnReady("Story.set_markAsSpamUrl('{0}');".FormatWith(Url.RouteUrl("MarkAsSpam")));
+
+        scriptManager.RegisterOnReady("Search.init();");
+        scriptManager.RegisterOnReady("Tag.init();");
+        scriptManager.RegisterOnReady("Membership.init();");
+
+        scriptManager.RegisterOnDispose("Membership.dispose();");
+        scriptManager.RegisterOnDispose("Tag.dispose();");
+        scriptManager.RegisterOnDispose("Search.dispose();");
+
+        if (Model.IsCurrentUserAuthenticated)
+        {
+            if (Model.CanCurrentUserModerate)
+            {
+                scriptManager.RegisterSource(Url.Asset("moderation"));
+                scriptManager.RegisterOnReady("Moderation.init();");
+                scriptManager.RegisterOnReady("Moderation.set_getStoryUrl('{0}');".FormatWith(Url.RouteUrl("GetStory")));
+                scriptManager.RegisterOnReady("Moderation.set_deleteStoryUrl('{0}');".FormatWith(Url.RouteUrl("Delete")));
+                scriptManager.RegisterOnReady("Moderation.set_spamStoryUrl('{0}');".FormatWith(Url.RouteUrl("ConfirmSpamStory")));
+                scriptManager.RegisterOnReady("Moderation.set_approveStoryUrl('{0}');".FormatWith(Url.RouteUrl("ApproveStory")));
+                scriptManager.RegisterOnReady("Moderation.set_spamCommentUrl('{0}');".FormatWith(Url.RouteUrl("ConfirmSpamComment")));
+                scriptManager.RegisterOnReady("Moderation.set_markCommentAsOffendedUrl('{0}');".FormatWith(Url.RouteUrl("MarkCommentAsOffended")));
+
+                scriptManager.RegisterOnDispose("Moderation.dispose();");
+            }
+
+            if (Model.CurrentUser.IsAdministrator())
+            {
+                scriptManager.RegisterSource(Url.Asset("administration"));
+                scriptManager.RegisterOnReady("Administration.init();");
+                scriptManager.RegisterOnReady("Administration.set_lockUserUrl('{0}');".FormatWith(Url.RouteUrl("LockUser")));
+                scriptManager.RegisterOnReady("Administration.set_unlockUserUrl('{0}');".FormatWith(Url.RouteUrl("UnlockUser")));
+                scriptManager.RegisterOnReady("Administration.set_publishUrl('{0}');".FormatWith(Url.RouteUrl("Publish")));
+                scriptManager.RegisterOnDispose("Administration.dispose();");
+            }
+        }
+
+        if (!Request.IsLocal)
+        {
+            scriptManager.RegisterSource("http://www.google-analytics.com/ga.js");
+            scriptManager.RegisterOnReady("Analytics.init();");
+        }
+    }
+
+    private void GenerateHeaders()
+    {
+        if (string.IsNullOrEmpty(Page.Header.Title))
+        {
+            Page.Header.Title = Model.SiteTitle;
+        }
+
+        metaKeywords.Content = Model.MetaKeywords;
+        metaDescription.Content = Model.MetaDescription;
+
+        //Remove the ugly server ID tag
+        metaKeywords.ID = metaDescription.ID = null;
+    }
+
+</script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head runat="server">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <meta id="metaKeywords" runat="server" name="keywords" content=""/>
+    <meta id="metaDescription" runat="server" name="description" content=""/>
+    <meta name="Rating" content="General"/>
+    <meta name="robots" content="index, follow"/>
+    <title></title>
+    <link href="<%= Url.Asset("css").Replace("&", "&amp;") %>" rel="stylesheet" type="text/css"/>
+    <link href="<%= Url.Image("fav.ico")%>" rel="shortcut icon" type="image/x-icon"/>
+    <link href="<%= Url.Image("fav.ico")%>" rel="icon" type="image/x-icon"/>
+    <link href="<%= Url.Content("~/opensearch.axd")%>" title="<%= Model.SiteTitle %>" rel="search" type="application/opensearchdescription+xml"/>
+    <script src="<%= Url.Asset("js1").Replace("&", "&amp;") %>" type="text/javascript"></script>
+    <asp:ContentPlaceHolder ID="HeadPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <div id="pageContainer">
+        <div id="header">
+            <div class="title">
+                <h1><a rel="home" title="<%= Model.SiteTitle %>" href="<%= Url.Content("~/")%>"><%= Model.SiteTitle %></a></h1>
+            </div>
+            <div class="links">
+                <% Html.RenderAction("Menu", "Membership"); %>
+            </div>
+        </div>
+        <div class="menu">
+            <% Html.RenderAction("Menu", "Category"); %>
+            <% Html.RenderPartial("SearchBox", ViewData.Model); %>
+        </div>
+        <div id="wrapper">
+            <div id="sidebar">
+                <%
+                    if (Model.CanCurrentUserModerate)
+                    {
+                        Html.RenderAction("ControlPanel", "Support");
+                    }
+                %>
+                <% Html.RenderPartial("IntroBox"); %>
+                <div class="divider"></div>
+                <% Html.RenderAction("TopTabs", "Membership"); %>
+                <div class="divider"></div>
+                <% Html.RenderAction("Tabs", "Tag"); %>
+                <div class="divider"></div>
+            </div>
+            <div id="content">
+                <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="footer">
+            <div style="float:left;padding-left:10px">
+                <p><a href="http://www.codeplex.com/Kigg" target="_blank" rel="external">project home</a> | <a href="http://www.codeplex.com/Kigg/WorkItem/List.aspx" target="_blank" rel="external">report a bug</a> | <a href="http://www.codeplex.com/Kigg/Thread/List.aspx" target="_blank" rel="external">disscuss</a> | <a href="http://weblogs.asp.net/rashid/archive/tags/DotNetShoutout/default.aspx" target="_blank" rel="external">blog</a> | <a href="<%= Url.RouteUrl("About") %>">about us</a> | <a href="<%= Url.RouteUrl("Contact") %>">contact us</a></p>
+                <p> © <%= Model.SiteTitle %>. <%= DateTime.Today.Year.ToString("0000") %> - Content posted by <%= ViewData.Model.SiteTitle %> users is <a target="_blank" rel="license" href="http://creativecommons.org/licenses/publicdomain/">dedicated to the public domain.</a></p>
+            </div>
+            <div style="float:right;padding-right:10px">
+                <a href="http://www.orcsweb.com" target="_blank" rel="external">
+                    <img alt="Powered By ORCS Web" style="border:0px;padding-top:10px" src="<%= Url.Image("OrcsWeb.png") %>"/>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="confirmationBox"></div>
+    <div id="messageBox"></div>
+    <div id="dimBackground" class="dimBackground"></div>
+    <% Html.RenderPartial("MembershipBox", Model); %>
+    <kigg:jQueryScriptManager id="scripts" runat="server"></kigg:jQueryScriptManager>
+</body>
+</html>
