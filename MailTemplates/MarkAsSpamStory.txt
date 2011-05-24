@@ -1,0 +1,6 @@
+The following story has been marked as spam by <%=markedByUserName%>:
+
+Title: <%=title%>
+Site Url: <%=siteUrl%>
+Original Url: <%=originalUrl%>
+User: <%=postedByUserName%>

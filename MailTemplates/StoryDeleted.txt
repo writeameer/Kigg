@@ -1,0 +1,5 @@
+The following story has been deleted by <%=deletedByUserName%>:
+
+Title: <%=title%>
+Url: <%=url%>
+User: <%=postedByUserName%>

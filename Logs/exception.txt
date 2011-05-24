@@ -1,0 +1,68 @@
+----------------------------------------
+Timestamp: 10/12/2010 6:48:00 PM
+Message: HandlingInstanceID: 5a4e5966-f957-487a-89c7-763794c298a8
+An exception of type 'System.Web.HttpException' occurred and was caught.
+------------------------------------------------------------------------
+10/12/2010 20:48:00
+Type : System.Web.HttpException, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Message : Server cannot append header after HTTP headers have been sent.
+Source : System.Web
+Help link : 
+ErrorCode : -2147467259
+Data : System.Collections.ListDictionaryInternal
+TargetSite : Void AppendHeader(System.String, System.String)
+Stack Trace :    at System.Web.HttpResponse.AppendHeader(String name, String value)
+   at System.Web.HttpResponseWrapper.AppendHeader(String name, String value)
+   at Kigg.Web.HttpContextExtension.CompressResponse(HttpContextBase context) in D:\Development\OpenSource\Mercurial\KiGG\Source\Web\Extension\HttpContextExtension.cs:line 31
+   at Kigg.Web.CompressAttribute.OnResultExecuted(ResultExecutedContext filterContext) in D:\Development\OpenSource\Mercurial\KiGG\Source\Web\Filters\CompressAttribute.cs:line 17
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   at System.Web.Mvc.Controller.ExecuteCore()
+   at System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__4()
+   at System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   at System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   at System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+Additional Info:
+
+MachineName : MOSESLAPTOP
+TimeStamp : 10/12/2010 6:48:00 PM
+FullName : Microsoft.Practices.EnterpriseLibrary.ExceptionHandling, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+AppDomainName : /LM/W3SVC/2/ROOT-4-129313828515984817
+ThreadIdentity : 
+WindowsIdentity : IIS APPPOOL\KiGG
+
+Category: FullException
+Priority: 1
+EventId: 0
+Severity: Critical
+Title:KiGG Exception
+Machine: MOSESLAPTOP
+Application Domain: /LM/W3SVC/2/ROOT-4-129313828515984817
+Process Id: 6744
+Process Name: c:\windows\system32\inetsrv\w3wp.exe
+Win32 Thread Id: 5228
+Thread Name: 
+Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/12/2010 6:48:00 PM
+Message: Server cannot append header after HTTP headers have been sent.
+Category: FullException
+Priority: 1
+EventId: 0
+Severity: Critical
+Title:
+Machine: MOSESLAPTOP
+Application Domain: /LM/W3SVC/2/ROOT-4-129313828515984817
+Process Id: 6744
+Process Name: c:\windows\system32\inetsrv\w3wp.exe
+Win32 Thread Id: 5228
+Thread Name: 
+Extended Properties: 
+----------------------------------------

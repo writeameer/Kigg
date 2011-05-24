@@ -1,0 +1,18 @@
+Hi there,
+
+Thank you for signing up with <%=siteTitle%>! We hope you are enjoying the site.
+
+The following is your registration info. Please verify your email address by clicking on this link:
+
+UserName: <%=userName%>
+Password: <%=password%>
+Url: <%=url%>
+
+If clicking on the above link doesn't work, copy and paste it into your browser.
+
+While this is an automated message, we personally read and reply to all our user emails. So, if you have any questions, comments or suggestions, send us an email. We look forward to hearing from you!
+
+Thanks,
+<%=siteTitle%> Team
+<%=siteTitle%>
+<%=rootUrl%>

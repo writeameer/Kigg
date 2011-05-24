@@ -1,0 +1,5 @@
+The following comment has been marked as offended by <%=offendedByUserName%>:
+
+Site Url: <%=siteUrl%>
+User: <%=postedByUserName%>
+Comment: <%=comment%>
