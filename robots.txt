@@ -1,8 +1,0 @@
-User-Agent: *
-Allow: /
-Sitemap: http://dotnetshoutout.com/sitemap.axd
-Disallow: /Logout
-Disallow: /Click
-Disallow: /Promote
-Disallow: /Demote
-Disallow: /MarkAsSpam

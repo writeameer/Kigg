@@ -1,6 +1,0 @@
-The following story has been approved by <%=approvedByUserName%>:
-
-Title: <%=title%>
-Site Url: <%=siteUrl%>
-Original Url: <%=originalUrl%>
-User: <%=postedByUserName%>

@@ -1,3 +1,0 @@
-The following comments has been submitted by <%=userName%> in <%=detailUrl%> :
-
-<%=comment%>
