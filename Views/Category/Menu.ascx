@@ -17,7 +17,7 @@
         }
         %>
         <li>
-            <a href="http://my.rightscale.com">RightScale Dashboard</a>
+            <a href="#" onClick="RightScaleDashboard=window.open('http://my.rightscale.com','RightScaleDashboard','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=1200,height=800'); return false;">RightScale Dashboard</a>
         </li>
     </ul>
 </div>
