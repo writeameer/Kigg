@@ -86,7 +86,7 @@ form
 #header .title a
 {
     color: #270A91;
-    background: transparent url(Assets/Images/rs_logo.png) no-repeat scroll 0 25;
+    background: transparent url(Assets/Images/rs_logo.png) no-repeat scroll 0 0;
     height: 102px;
     width: 369px;
     position: absolute;
