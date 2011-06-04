@@ -16,5 +16,8 @@
         <%
         }
         %>
+        <li>
+            <a href="http://my.rightscale.com">RightScale Dashboard</a>
+        </li>
     </ul>
 </div>
